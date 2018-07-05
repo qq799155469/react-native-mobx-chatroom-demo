@@ -3,11 +3,11 @@
 
 ## QuickStart
 
-# 1.安装并启动react-native(可查阅官方文档)
+### 1.安装并启动react-native(可查阅官方文档)
 
-# 2.安装并启动MongoDB(推荐安装adminMongo作为可视化工具)
+### 2.安装并启动MongoDB(推荐安装adminMongo作为可视化工具)
 
-# 3.开启项目服务端进程
+### 3.开启项目服务端进程
 ```shell
 $ npm install
 $ npm run server
