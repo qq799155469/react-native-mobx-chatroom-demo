@@ -9,24 +9,28 @@ import {
 } from './components'
 import { apiAddr } from '../../config'
 
-export default class Login extends Component {
+export default class Register extends Component {
     constructor(props) {
         super(props)
         this.state = {
             usernamePlace: '请输入账号',
             pwdPlace: '请输入密码',
+            nicknamePlace: '请输入昵称',
             username: '',
-            pwd: ''
+            pwd: '',
+            nickname: '',
+            tips: ''
         }
     }
-    fetchLogin () {
-        fetch(`${apiAddr}/login`,{
+    fetchRegister() {
+        fetch(`${apiAddr}/register`,{
             method: 'POST',
-            headers:{
+            headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify({
+                name: this.state.nickname,
                 username: this.state.username,
                 password: this.state.pwd
             })
@@ -39,7 +43,7 @@ export default class Login extends Component {
                 Alert.alert(data.message)
             }
         }).catch(err => {
-            alert(err)
+            console.log(err)
         })
     }
     render() {
@@ -47,16 +51,19 @@ export default class Login extends Component {
             <View>
                 <View>
                     <EditView 
-                    tip={this.state.usernamePlace}
-                    changeText={text => this.setState({username: text})}/>
+                        tip={this.state.usernamePlace}
+                        changeText={text => this.setState({username: text})}/>
                     <EditView 
-                    tip={this.state.pwdPlace}
-                    changeText={text => this.setState({pwd: text})}/>
+                        tip={this.state.pwdPlace}
+                        changeText={text => this.setState({pwd: text})}/>
+                    <EditView 
+                        tip={this.state.nicknamePlace}
+                        changeText={text => this.setState({nickname: text})}/>
                 </View>
                 <View>
-                    <SubmitBtn
-                        submitFn={this.fetchLogin.bind(this)}
-                        name='登录'/>
+                    <SubmitBtn 
+                        name='注册' 
+                        submitFn={this.fetchRegister.bind(this)}/>
                 </View>
             </View>
         )

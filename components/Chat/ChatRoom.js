@@ -51,7 +51,7 @@ var chatListJson = [{
     portrait: 'https://avatar.csdn.net/3/F/8/3_xiehuimx.jpg',
     content: 'React Native提供了几个适用于展示长列表数据的组件，一般而言我们会选用FlatList或是SectionList。'
 }]
-@observer
+@observer //观察该组件，使该组件能够响应mobx的变化
 export default class ChatRoom extends Component {
     constructor() {
         super()

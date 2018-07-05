@@ -4,11 +4,19 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "server": "node server"
   },
   "dependencies": {
+    "admin-mongo": "^0.0.23",
+    "blueimp-md5": "^2.10.0",
+    "global": "^4.3.2",
+    "koa": "^2.5.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-router": "^7.4.0",
     "mobx": "^4.1.1",
     "mobx-react": "^5.0.0",
+    "mongoose": "^5.0.15",
     "react": "^16.3.0-alpha.1",
     "react-native": "0.54.4",
     "react-navigation": "^1.5.11"

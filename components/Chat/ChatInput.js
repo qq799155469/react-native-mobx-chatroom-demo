@@ -6,8 +6,7 @@ import {
     StyleSheet,
     View,
     TextInput,
-    Button,
-    Keyboard
+    Button
 } from 'react-native'
 
 @observer
