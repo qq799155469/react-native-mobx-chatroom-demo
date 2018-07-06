@@ -1,6 +1,6 @@
 'use strict'
 import React, {Component} from 'react'
-import {observer} from 'mobx-react'
+import { observer, inject } from 'mobx-react/native'
 import {
     StyleSheet,
     Text,
@@ -8,14 +8,16 @@ import {
     ImageBackground
 } from 'react-native'
 
+@inject('rootStore')
 @observer
 export default class ChatView extends Component {
     constructor(props) {
         super(props)
     }
     render() {
+        const store = this.props.rootStore.ChatStore
         return (
-            this.props.store.chatList.map((item, index) => <View key={index} style={item.isOwn ? styles.itemWrapOwn : styles.itemWrapOther}><ImageBackground source={{uri: item.portrait}} style={styles.portrait}></ImageBackground><Text style={styles.item}>{item.content}</Text></View>)
+            store.chatList.map((item, index) => <View key={index} style={item.isOwn ? styles.itemWrapOwn : styles.itemWrapOther}><ImageBackground source={{uri: item.portrait}} style={styles.portrait}></ImageBackground><Text style={styles.item}>{item.content}</Text></View>)
         )
     }
 }

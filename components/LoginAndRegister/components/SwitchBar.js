@@ -4,24 +4,26 @@ import {
     View,
     Button
 } from 'react-native'
-import { observer } from 'mobx-react'
+import { observer, inject } from 'mobx-react/native'
 
+@inject('rootStore')
 @observer
 export default class SwitchBar extends Component {
     constructor(props) {
         super(props)
+        this.store = this.props.rootStore.LoginAndRegisterStore
         this.state = {
             operates: [{
                 key: 0,
                 name: '登录',
                 todo: () => {
-                    this.props.store.switchOrder(false)
+                    this.store.switchOrder(false)
                 }
             }, {
                 key: 1,
                 name: '注册',
                 todo: () => {
-                    this.props.store.switchOrder(true)
+                    this.store.switchOrder(true)
                 }
             }]
         }

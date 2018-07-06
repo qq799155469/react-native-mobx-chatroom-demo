@@ -45,9 +45,9 @@ export default class ChatRoom extends Component {
                 <ScrollView 
                     style={styles.listView}
                     ref={(scrollView) => _scrollView = scrollView}>
-                    <ChatView store={store}/>
+                    <ChatView/>
                 </ScrollView>
-                <ChatInput store={store}/>
+                <ChatInput/>
             </View>
         )
     }

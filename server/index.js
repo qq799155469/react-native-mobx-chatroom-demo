@@ -32,4 +32,7 @@ ws.on('connection', client => {
     client.on('addUser', msg => {
         console.log(msg)
     })
+    client.on('sendMessage', msg => {
+        console.log(`${msg}，这句话你再说一次？`)
+    })
 })

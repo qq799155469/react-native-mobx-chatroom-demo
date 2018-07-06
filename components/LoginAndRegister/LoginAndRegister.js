@@ -26,8 +26,8 @@ export default class LoginAndRegisterView extends Component {
         return (
             <View style={styles.container}>
                 <ImageBackground style={styles.bgImage}/>
-                <SwitchBar store={store}/>
-                {store.switchToRegister ? <Register store={store} goChat={this.goChat.bind(this)}/> : <Login store={store} goChat={this.goChat.bind(this)}/>}
+                <SwitchBar/>
+                {store.switchToRegister ? <Register goChat={this.goChat.bind(this)}/> : <Login goChat={this.goChat.bind(this)}/>}
             </View>
         )
     }

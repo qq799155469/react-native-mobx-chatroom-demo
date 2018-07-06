@@ -1,6 +1,6 @@
 'use strict'
 import React, {Component} from 'react'
-import {observer} from 'mobx-react'
+import { observer, inject } from 'mobx-react/native'
 import io from 'socket.io-client'
 import {
     StyleSheet,
@@ -15,6 +15,7 @@ if (!window.location) {
     window.navigator.userAgent = 'ReactNative';
 }
 
+@inject('rootStore')
 @observer
 export default class ChatInput extends Component {
     constructor(props) {
@@ -26,19 +27,22 @@ export default class ChatInput extends Component {
         this.socket = null
     }
     componentDidMount() {
+        const { UserStore, ChatStore } = this.props.rootStore
         // 建立socket链接
         this.socket = io(wsAddr, {
             transports: ['websocket']
         })
         this.socket.on('connect', async () => {
-            this.socket.emit('addUser', 'siko')
+            this.socket.emit('addUser', UserStore.userInfo.userId)
         })
-        this.socket.emit('addUser', msg => {
-            alert(msg)
+        this.socket.on('fetchMessage', async msg => {
+            ChatStore.addChatList(msg)
         })
     }
     sendMessage() {
-
+        const { ChatStore } = this.props.rootStore
+        ChatStore.addChatList(this.state.message)
+        this.socket.emit('sendMessage', this.state.message)
     }
     render() {
         return (
@@ -52,8 +56,7 @@ export default class ChatInput extends Component {
                     <Button
                         title='发送'
                         color='#fff'
-                        onPress={() => this.props.store.addChatList(this.state.message)}
-                        // onPress={() => this.sendMessage().bind(this)}
+                        onPress={() => this.sendMessage()}
                     />
                 </View>
             </View>

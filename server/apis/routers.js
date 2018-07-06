@@ -40,6 +40,7 @@ module.exports = () => {
         const res = await User.findOne(body)
         if (res) {
             ctx.body = {
+                data: res,
                 code: 0,
                 flag: 0,
                 message: '登录成功'

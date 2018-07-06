@@ -8,7 +8,10 @@ import {
     SubmitBtn
 } from './components'
 import { apiAddr } from '../../config'
+import { observer, inject } from 'mobx-react'
 
+@inject('rootStore')
+@observer
 export default class Login extends Component {
     constructor(props) {
         super(props)
@@ -34,6 +37,8 @@ export default class Login extends Component {
         .then(res => res.json())
         .then(data => {
             if (data.code === 0 && data.flag === 0) {
+                const store = this.props.rootStore.UserStore
+                store.fetchUser(data.data)
                 this.props.goChat()
             } else {
                 Alert.alert(data.message)
