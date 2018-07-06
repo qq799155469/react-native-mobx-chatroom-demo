@@ -9,21 +9,10 @@ import {
 } from './components'
 import Login from './Login'
 import Register from './Register'
-import { observable, action } from 'mobx'
-import { observer } from 'mobx-react'
-
-class LoginAndRegisterStore {
-    @observable
-    switchToRegister = false
-    @action
-    switchOrder = (_ = false) => {
-        this.switchToRegister = _
-    }
-}
-
-const store = new LoginAndRegisterStore()
+import { observer, inject } from 'mobx-react/native'
 
 //视图组件
+@inject('rootStore')
 @observer
 export default class LoginAndRegisterView extends Component {
     constructor(props) {
@@ -33,6 +22,7 @@ export default class LoginAndRegisterView extends Component {
         this.props.navigation.navigate('Chat')
     }
     render() {
+        const store = this.props.rootStore.LoginAndRegisterStore
         return (
             <View style={styles.container}>
                 <ImageBackground style={styles.bgImage}/>

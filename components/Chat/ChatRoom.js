@@ -1,7 +1,6 @@
 'use strict'
 import React, {Component} from 'react'
-import {observable, action, autorun} from 'mobx'
-import {observer} from 'mobx-react'
+import { observer, inject } from 'mobx-react/native'
 import {
     StyleSheet,
     ScrollView,
@@ -10,32 +9,6 @@ import {
 } from 'react-native'
 
 let _scrollView
-
-class ChatState {
-    @observable 
-    inputText = ''
-    @observable 
-    chatList = []
-    // add chat message
-    @action 
-    addChatList = text => {
-        this.chatList.push(Object.assign({
-            key: '3',
-            isOwn: true
-        }, {
-            content: text,
-            portrait: 'https://gss0.bdstatic.com/-4o3dSag_xI4khGkpoWK1HF6hhy/baike/s%3D220/sign=55fba25ad654564ee165e33b83df9cde/d53f8794a4c27d1eceb4a58d10d5ad6edcc438ec.jpg'
-        }))
-        setTimeout(() => _scrollView.scrollToEnd({animated: true}),0)
-    }
-    // restore chat history
-    @action 
-    restoreChatList = list => {
-        this.chatList = list
-    }
-}
-
-const store = new ChatState()
 
 import ChatView from './ChatView'
 import ChatInput from './ChatInput'
@@ -51,6 +24,8 @@ var chatListJson = [{
     portrait: 'https://avatar.csdn.net/3/F/8/3_xiehuimx.jpg',
     content: 'React Native提供了几个适用于展示长列表数据的组件，一般而言我们会选用FlatList或是SectionList。'
 }]
+
+@inject('rootStore')
 @observer //观察该组件，使该组件能够响应mobx的变化
 export default class ChatRoom extends Component {
     constructor() {
@@ -60,6 +35,7 @@ export default class ChatRoom extends Component {
         }
     }
     render() {
+        const store = this.props.rootStore.ChatStore
         store.restoreChatList(chatListJson)
         return (
             <View style={styles.container}>
