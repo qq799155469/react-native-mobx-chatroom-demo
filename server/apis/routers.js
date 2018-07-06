@@ -10,8 +10,13 @@ const router = new Router({
 module.exports = () => {
     router.post('/register', async ctx => {
         const { body } = ctx.request
-        body.password = md5(body.password, configs.md5Key)
-        const sameUser = await User.findOne({username: body.username})
+        const params = Object.assign({
+            online: true,
+            icon: `${configs.serverAddr}/assets/imgs/defaut-protrait.png`
+        }, body, {
+            password: md5(body.password, configs.md5Key)
+        })
+        const sameUser = await User.findOne({username: params.username})
         if (sameUser) {
             ctx.body = {
                 code: 0,
@@ -20,7 +25,7 @@ module.exports = () => {
             }
             ctx.status = 200
         } else {
-            const res = await User(body).save()
+            const res = await User(params).save()
             ctx.body = Object.assign({
                 code: 0,
                 flag: 0,
@@ -28,7 +33,6 @@ module.exports = () => {
             })
             ctx.status = 200
         }
-        
     })
     router.post('/login', async ctx => {
         const { body } = ctx.request

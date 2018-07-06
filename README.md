@@ -1,5 +1,8 @@
 # react-native-mobx-chatroom-demo
-该项目实现了一个聊天室功能，可用于学习react-native以及mobx
+该项目实现了一个聊天室功能，可同时用于学习react-native，mobx
+
+### 技术栈
+react native + mobx + koa2 + MongoDB
 
 ### QuickStart
 

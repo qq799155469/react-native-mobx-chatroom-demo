@@ -13,6 +13,12 @@ const UserSchema = new Schema({
     password: {
         required: true,
         type: String
+    },
+    online: {
+        type: Boolean
+    },
+    icon: {
+        type: String
     }
 })
 

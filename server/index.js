@@ -1,6 +1,7 @@
 // connect to mongodb
 const path = require('path')
 const mongoose = require('mongoose')
+const io = require('socket.io')()
 
 const db = 'mongodb://localhost:27017/chat'
 
@@ -21,6 +22,14 @@ const router = require('./apis/routers')()
 app.use(router.routes())
     .use(router.allowedMethods())
 
-app.listen('9001', () => {
+const server = app.listen('9001', () => {
     console.log('listening in port 9001')
+})
+
+const ws = io.listen(server)
+
+ws.on('connection', client => {
+    client.on('addUser', msg => {
+        console.log(msg)
+    })
 })

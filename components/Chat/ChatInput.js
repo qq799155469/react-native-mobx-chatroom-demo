@@ -1,21 +1,44 @@
 'use strict'
 import React, {Component} from 'react'
-import {observable, action, autorun} from 'mobx'
 import {observer} from 'mobx-react'
+import io from 'socket.io-client'
 import {
     StyleSheet,
     View,
     TextInput,
     Button
 } from 'react-native'
+import { wsAddr } from '../../config'
+
+if (!window.location) {
+    // App is running in simulator
+    window.navigator.userAgent = 'ReactNative';
+}
 
 @observer
 export default class ChatInput extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            message: ''
+            message: '',
+            socket: null
         }
+        this.socket = null
+    }
+    componentDidMount() {
+        // 建立socket链接
+        this.socket = io(wsAddr, {
+            transports: ['websocket']
+        })
+        this.socket.on('connect', async () => {
+            this.socket.emit('addUser', 'siko')
+        })
+        this.socket.emit('addUser', msg => {
+            alert(msg)
+        })
+    }
+    sendMessage() {
+
     }
     render() {
         return (
@@ -30,6 +53,7 @@ export default class ChatInput extends Component {
                         title='发送'
                         color='#fff'
                         onPress={() => this.props.store.addChatList(this.state.message)}
+                        // onPress={() => this.sendMessage().bind(this)}
                     />
                 </View>
             </View>
