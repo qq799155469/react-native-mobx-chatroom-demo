@@ -30,9 +30,9 @@ const ws = io.listen(server)
 
 ws.on('connection', client => {
     client.on('addUser', msg => {
-        console.log(msg)
+        console.log(`${msg}上线了`)
     })
-    client.on('sendMessage', msg => {
-        console.log(`${msg}，这句话你再说一次？`)
+    client.on('sendMessage.client', msg => {
+        client.emit('sendMessage.server', `${msg}，这句话你再说一次？`)
     })
 })

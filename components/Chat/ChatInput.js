@@ -35,14 +35,14 @@ export default class ChatInput extends Component {
         this.socket.on('connect', async () => {
             this.socket.emit('addUser', UserStore.userInfo.userId)
         })
-        this.socket.on('fetchMessage', async msg => {
-            ChatStore.addChatList(msg)
+        this.socket.on('sendMessage.server', async msg => {
+            ChatStore.addChatList(msg, 0)
         })
     }
     sendMessage() {
         const { ChatStore } = this.props.rootStore
-        ChatStore.addChatList(this.state.message)
-        this.socket.emit('sendMessage', this.state.message)
+        ChatStore.addChatList(this.state.message, 1)
+        this.socket.emit('sendMessage.client', this.state.message)
     }
     render() {
         return (

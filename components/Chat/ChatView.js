@@ -17,7 +17,14 @@ export default class ChatView extends Component {
     render() {
         const store = this.props.rootStore.ChatStore
         return (
-            store.chatList.map((item, index) => <View key={index} style={item.isOwn ? styles.itemWrapOwn : styles.itemWrapOther}><ImageBackground source={{uri: item.portrait}} style={styles.portrait}></ImageBackground><Text style={styles.item}>{item.content}</Text></View>)
+            store.chatList.map((item, index) => <View 
+                key={index} 
+                style={item.who ? styles.itemWrapOwn : styles.itemWrapOther}>
+                    <ImageBackground 
+                    source={{uri: item.portrait}} 
+                    style={styles.portrait}></ImageBackground>
+                    <Text style={styles.item}>{item.content}</Text>
+                </View>)
         )
     }
 }
