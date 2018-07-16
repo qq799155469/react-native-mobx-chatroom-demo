@@ -30,7 +30,7 @@ export default class LoginAndRegisterView extends Component {
             <View style={styles.container}>
                 <ImageBackground style={styles.bgImage}/>
                 <SwitchBar/>
-                {store.switchToRegister ? <Register goChat={this.goChat.bind(this)}/> : <Login goContacts={this.goContacts.bind(this)}/>}
+                {store.switchToRegister ? <Register goContacts={this.goContacts.bind(this)}/> : <Login goContacts={this.goContacts.bind(this)}/>}
             </View>
         )
     }

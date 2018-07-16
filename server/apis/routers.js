@@ -2,7 +2,8 @@ const Router = require('koa-router')
 const md5 = require('blueimp-md5')
 const configs = require('../configs')
 
-const User = require('../models/User.js')
+const User = require('../models/User')
+const Message = require('../models/Message')
 
 const router = new Router({
     prefix: '/api'
@@ -64,6 +65,27 @@ module.exports = () => {
     router.post('/contacts/list', async ctx => {
         const contacts = await User.findOne(id)
         ctx.body = contacts
+        ctx.status = 200
+    })
+    router.post('/message/add', async ctx => {
+        const result = await Message(ctx.request.body).save()
+        ctx.body = Object.assign({
+            code: 0,
+            flag: 0,
+            data: result,
+            message: '消息发送成功'
+        })
+        ctx.status = 200
+    })
+    router.post('/message/history', async ctx => {
+        const {toId, fromId} = ctx.request.body
+        const result = await Message.find({"to.userId": toId, "from.userId": fromId})
+        ctx.body = {
+            code: 0,
+            flag: 0,
+            data: result,
+            message: '获取消息历史成功'
+        }
         ctx.status = 200
     })
     return router

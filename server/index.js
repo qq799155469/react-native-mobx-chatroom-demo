@@ -1,8 +1,7 @@
-const path = require('path')
 const mongoose = require('mongoose')
-const serve = require('koa-static')
 const io = require('socket.io')()
 const configs = require('./configs')
+const request = require('request')
 // connect to mongodb
 const db = 'mongodb://localhost:27017/chat'
 
@@ -22,8 +21,6 @@ const router = require('./apis/routers')()
 app.use(router.routes())
     .use(router.allowedMethods())
 
-// app.use(serve(path.join(__dirname, '..', 'static')))
-
 const server = app.listen(configs.port, () => {
     console.log(`listening in port ${configs.port}`)
 })
@@ -35,6 +32,11 @@ ws.on('connection', client => {
         console.log(`${msg}上线了`)
     })
     client.on('sendMessage.client', msg => {
-        client.emit('sendMessage.server', `${msg}，这句话你再说一次？`)
+        const {content, from, to} = msg
+        client.emit(`sendMessage.${to.userId}`, {
+            content,
+            from,
+            to
+        })
     })
 })

@@ -38,7 +38,7 @@ export default class Register extends Component {
         .then(res => res.json())
         .then(data => {
             if (data.code === 0 && data.flag === 0) {
-                this.props.goChat()
+                this.props.goContacts()
             } else {
                 Alert.alert(data.message)
             }

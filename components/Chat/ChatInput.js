@@ -8,7 +8,7 @@ import {
     TextInput,
     Button
 } from 'react-native'
-import { wsAddr } from '../../config'
+import { wsAddr, apiAddr } from '../../config'
 
 if (!window.location) {
     // App is running in simulator
@@ -35,20 +35,53 @@ export default class ChatInput extends Component {
         this.socket.on('connect', async () => {
             this.socket.emit('addUser', UserStore.userInfo.userId)
         })
-        this.socket.on('sendMessage.server', async msg => {
+        this.socket.on(`sendMessage.${UserStore.userInfo.userId}`, async msg => {
             ChatStore.addChatList({
-                text: msg,
+                text: msg.content,
                 who: 0
             })
         })
     }
     sendMessage() {
-        const { ChatStore } = this.props.rootStore
-        ChatStore.addChatList({
-            text: this.state.message,
-            who: 1
+        const { ChatStore, UserStore } = this.props.rootStore
+        this.socket.emit(`sendMessage.client`, {
+            content: this.state.message,
+            from: UserStore.userInfo,
+            to: this.props.chatObj
         })
-        this.socket.emit('sendMessage.client', this.state.message)
+        fetch(`${apiAddr}/message/add`,{
+            method: 'POST',
+            headers:{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                content: this.state.message,
+                from: {
+                    userId: UserStore.userInfo.userId,
+                    icon: UserStore.userInfo.icon,
+                    name: UserStore.userInfo.name
+                },
+                to: {
+                    userId: this.props.chatObj._id,
+                    icon: this.props.chatObj.icon,
+                    name: this.props.chatObj.name
+                }
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.code === 0 && data.flag === 0) {
+                ChatStore.addChatList({
+                    text: this.state.message,
+                    who: 1
+                })
+            } else {
+                Alert.alert(data.message)
+            }
+        }).catch(err => {
+            alert(err)
+        })
     }
     render() {
         return (

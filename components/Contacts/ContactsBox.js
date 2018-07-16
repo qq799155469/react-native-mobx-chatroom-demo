@@ -26,8 +26,9 @@ export default class ContactsBox extends Component {
         this.ContactsStore.setContactsList(contacts)
     }
     goChat(item) {
+        // 通过导航传递聊天对象的信息
         this.props.navigation.navigate('Chat', {
-            title: item.name
+            item
         })
     }
     render() {
