@@ -5,12 +5,13 @@ export default class UserStore {
     userInfo = null
     @action
     fetchUser = user => {
-        const { name, icon, online, _id } = user
+        const { name, icon, online, _id, contacts } = user
         this.userInfo = {
             name,
             icon,
             online,
-            userId: _id
+            userId: _id,
+            contacts
         }
     }
 }

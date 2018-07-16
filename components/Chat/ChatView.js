@@ -21,7 +21,7 @@ export default class ChatView extends Component {
                 key={index} 
                 style={item.who ? styles.itemWrapOwn : styles.itemWrapOther}>
                     <ImageBackground 
-                    source={{uri: item.portrait}} 
+                    source={{uri: item.icon}} 
                     style={styles.portrait}></ImageBackground>
                     <Text style={styles.item}>{item.content}</Text>
                 </View>)

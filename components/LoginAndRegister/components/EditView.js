@@ -21,12 +21,13 @@ export default class EditView extends Component {
 
 const styles = StyleSheet.create({
     editView: {
-        width: '100%',
+        width: '95%',
         height: 40,
-        backgroundColor: '#fff',
+        borderBottomWidth: 0.5,
+        borderColor: '#eee',
         marginTop: 5,
         marginBottom: 5,
-        paddingLeft: 10,
-        paddingRight: 10
+        marginLeft: '2.5%',
+        marginRight: '2.5%'
     }
 })

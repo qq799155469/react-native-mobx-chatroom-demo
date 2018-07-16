@@ -36,12 +36,18 @@ export default class ChatInput extends Component {
             this.socket.emit('addUser', UserStore.userInfo.userId)
         })
         this.socket.on('sendMessage.server', async msg => {
-            ChatStore.addChatList(msg, 0)
+            ChatStore.addChatList({
+                text: msg,
+                who: 0
+            })
         })
     }
     sendMessage() {
         const { ChatStore } = this.props.rootStore
-        ChatStore.addChatList(this.state.message, 1)
+        ChatStore.addChatList({
+            text: this.state.message,
+            who: 1
+        })
         this.socket.emit('sendMessage.client', this.state.message)
     }
     render() {

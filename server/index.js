@@ -1,8 +1,9 @@
-// connect to mongodb
 const path = require('path')
 const mongoose = require('mongoose')
+const serve = require('koa-static')
 const io = require('socket.io')()
-
+const configs = require('./configs')
+// connect to mongodb
 const db = 'mongodb://localhost:27017/chat'
 
 mongoose.Promise = global.Promise
@@ -14,16 +15,17 @@ const bodyParser = require('koa-bodyparser');
 
 const app = new Koa()
 
-app.context.name = 'siko'
-
 app.use(bodyParser())
 
 const router = require('./apis/routers')()
+
 app.use(router.routes())
     .use(router.allowedMethods())
 
-const server = app.listen('9001', () => {
-    console.log('listening in port 9001')
+// app.use(serve(path.join(__dirname, '..', 'static')))
+
+const server = app.listen(configs.port, () => {
+    console.log(`listening in port ${configs.port}`)
 })
 
 const ws = io.listen(server)

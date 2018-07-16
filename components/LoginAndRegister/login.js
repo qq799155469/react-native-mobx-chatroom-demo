@@ -39,7 +39,7 @@ export default class Login extends Component {
             if (data.code === 0 && data.flag === 0) {
                 const store = this.props.rootStore.UserStore
                 store.fetchUser(data.data)
-                this.props.goChat()
+                this.props.goContacts()
             } else {
                 Alert.alert(data.message)
             }

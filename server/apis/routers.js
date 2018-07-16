@@ -1,7 +1,8 @@
 const Router = require('koa-router')
-const User = require('../models/User.js')
 const md5 = require('blueimp-md5')
 const configs = require('../configs')
+
+const User = require('../models/User.js')
 
 const router = new Router({
     prefix: '/api'
@@ -58,6 +59,11 @@ module.exports = () => {
     router.get('/user', async ctx => {
         const users = await User.find()
         ctx.body = users
+        ctx.status = 200
+    })
+    router.post('/contacts/list', async ctx => {
+        const contacts = await User.findOne(id)
+        ctx.body = contacts
         ctx.status = 200
     })
     return router

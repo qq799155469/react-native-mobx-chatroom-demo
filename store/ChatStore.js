@@ -7,19 +7,27 @@ export default class ChatStore {
     listDom = ''
     @observable 
     chatList = []
-    // add chat message
+    @observable
+    userInfo = {}
+    @observable
+    toUserInfo = {}
+    // init chatlist
     @action
-    initChatList = _ => this.listDom = _
+    initChatList = (scrollView, userInfo, toUserInfo) => {
+        this.listDom = scrollView
+        this.userInfo = userInfo
+        this.toUserInfo = toUserInfo
+    }
+    // add chat message
+    // ** who: 1表示自己，0表示对方
     @action 
-    // who: 1表示自己，0表示对方
-    addChatList = (text, who) => {
-        this.chatList.push(Object.assign({
-            key: '3',
-            who
-        }, {
-            content: text,
-            portrait: 'https://gss0.bdstatic.com/-4o3dSag_xI4khGkpoWK1HF6hhy/baike/s%3D220/sign=55fba25ad654564ee165e33b83df9cde/d53f8794a4c27d1eceb4a58d10d5ad6edcc438ec.jpg'
-        }))
+    addChatList = data => {
+        this.chatList.push({
+            key: '0',
+            who: data.who,
+            content: data.text,
+            icon: data.who ? this.userInfo.icon : this.toUserInfo.icon
+        })
         setTimeout(() => this.listDom.scrollToEnd({animated: true}),0)
     }
     // restore chat history

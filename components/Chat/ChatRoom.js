@@ -8,8 +8,6 @@ import {
     Text
 } from 'react-native'
 
-let _scrollView
-
 import ChatView from './ChatView'
 import ChatInput from './ChatInput'
 
@@ -18,26 +16,30 @@ var chatListJson = []
 @inject('rootStore')
 @observer //观察该组件，使该组件能够响应mobx的变化
 export default class ChatRoom extends Component {
+    static navigationOptions = ({navigation}) => ({
+        title: navigation.state.params.title
+    })
     constructor(props) {
         super(props)
         this.state = {
-            toName: 'Siko'
+            toName: 'Robot'
         }
-        this.store = this.props.rootStore.ChatStore
+        this.UserStore = this.props.rootStore.UserStore
+        this.ChatStore = this.props.rootStore.ChatStore
     }
     initScrollView(_) {
-        this.store.initChatList(_)
+        this.ChatStore.initChatList(_, this.UserStore.userInfo, {
+            name: this.state.toName,
+            icon: 'http://localhost:9066/static/assets/imgs/robot-icon.png'
+        })
     }
     render() {
-        this.store.restoreChatList(chatListJson)
+        this.ChatStore.restoreChatList(chatListJson)
         return (
             <View style={styles.container}>
-                <View style={styles.titleBox}>
-                    <Text style={styles.title}>{this.state.toName}</Text>
-                </View>
                 <ScrollView 
                     style={styles.listView}
-                    ref={(scrollView) => this.initScrollView(scrollView)}>
+                    ref={scrollView => this.initScrollView(scrollView)}>
                     <ChatView/>
                 </ScrollView>
                 <ChatInput/>
@@ -47,17 +49,6 @@ export default class ChatRoom extends Component {
 }
 
 const styles = StyleSheet.create({
-    titleBox: {
-        width: '100%',
-        backgroundColor: '#494949',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flex: 0.1
-    },
-    title: {
-        color: '#fff'
-    },
     container: {
         width: '100%',
         height: '100%',

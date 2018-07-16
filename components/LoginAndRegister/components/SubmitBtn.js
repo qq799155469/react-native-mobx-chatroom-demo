@@ -29,8 +29,11 @@ const styles = StyleSheet.create({
         width:30,
     },
     loginTextView: {
-        marginTop: 10,
-        height:50,
+        marginTop: 25,
+        width: '95%',
+        marginLeft: '2.5%',
+        marginRight: '2.5%',
+        height:48,
         backgroundColor: '#3281DD',
         borderRadius:5,
         flexDirection: 'row',

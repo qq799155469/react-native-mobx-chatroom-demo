@@ -21,13 +21,16 @@ export default class LoginAndRegisterView extends Component {
     goChat() {
         this.props.navigation.navigate('Chat')
     }
+    goContacts() {
+        this.props.navigation.navigate('Contacts')
+    }
     render() {
         const store = this.props.rootStore.LoginAndRegisterStore
         return (
             <View style={styles.container}>
                 <ImageBackground style={styles.bgImage}/>
                 <SwitchBar/>
-                {store.switchToRegister ? <Register goChat={this.goChat.bind(this)}/> : <Login goChat={this.goChat.bind(this)}/>}
+                {store.switchToRegister ? <Register goChat={this.goChat.bind(this)}/> : <Login goContacts={this.goContacts.bind(this)}/>}
             </View>
         )
     }
@@ -37,7 +40,9 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         height: '100%',
-        padding: 15
+        paddingLeft: 20,
+        paddingRight: 20,
+        backgroundColor: '#fff'
     },
     bgImage: {
         width: 100,

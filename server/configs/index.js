@@ -1,4 +1,5 @@
 module.exports = {
     md5Key: 'sikoChat',
-    serverAddr: 'http://localhost:9001'
+    port: '9066',
+    serverAddr: 'http://localhost:9066'
 }

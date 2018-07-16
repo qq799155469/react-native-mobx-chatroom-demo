@@ -19,6 +19,9 @@ const UserSchema = new Schema({
     },
     icon: {
         type: String
+    },
+    contacts: {
+        type: Array
     }
 })
 
