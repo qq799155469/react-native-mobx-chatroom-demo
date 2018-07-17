@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 
 const MessageSchema = new Schema({
     from: {
-        userId: {
+        _id: {
             required: true,
             type: String
         },
@@ -16,7 +16,7 @@ const MessageSchema = new Schema({
         }
     },
     to: {
-        userId: {
+        _id: {
             required: true,
             type: String
         },
@@ -30,7 +30,7 @@ const MessageSchema = new Schema({
     },
     createTime: {
         type: String,
-        default: Date.now()
+        default: Date.now
     },
     isDeleted: {
         type: Boolean,

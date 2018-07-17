@@ -34,5 +34,6 @@ export default class ChatStore {
     @action 
     restoreChatList = list => {
         this.chatList = list
+        setTimeout(() => this.listDom.scrollToEnd({animated: false}),0)
     }
 }

@@ -10,7 +10,7 @@ export default class UserStore {
             name,
             icon,
             online,
-            userId: _id,
+            _id,
             contacts
         }
     }

@@ -79,11 +79,16 @@ module.exports = () => {
     })
     router.post('/message/history', async ctx => {
         const {toId, fromId} = ctx.request.body
-        const result = await Message.find({"to.userId": toId, "from.userId": fromId})
+        let res1 = await Message.find({"to._id": toId, "from._id": fromId})
+        let res2 = await Message.find({"to._id": fromId, "from._id": toId})
+        let sortNum = (a, b) => {
+            return a.createTime - b.createTime
+        }
+        const res = res1.concat(res2).sort(sortNum)
         ctx.body = {
             code: 0,
             flag: 0,
-            data: result,
+            data: res,
             message: '获取消息历史成功'
         }
         ctx.status = 200

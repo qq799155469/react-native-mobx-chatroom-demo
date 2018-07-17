@@ -6,7 +6,9 @@ import {
     StyleSheet,
     View,
     TextInput,
-    Button
+    Button,
+    Keyboard,
+    TouchableOpacity
 } from 'react-native'
 import { wsAddr, apiAddr } from '../../config'
 
@@ -22,9 +24,12 @@ export default class ChatInput extends Component {
         super(props)
         this.state = {
             message: '',
-            socket: null
+            socket: null,
+            KeyboardShown: false
         }
         this.socket = null
+        this.keyboardDidShowListener = null;
+        this.keyboardDidHideListener = null;
     }
     componentDidMount() {
         const { UserStore, ChatStore } = this.props.rootStore
@@ -33,15 +38,56 @@ export default class ChatInput extends Component {
             transports: ['websocket']
         })
         this.socket.on('connect', async () => {
-            this.socket.emit('addUser', UserStore.userInfo.userId)
+            this.socket.emit('addUser', UserStore.userInfo._id)
         })
-        this.socket.on(`sendMessage.${UserStore.userInfo.userId}`, async msg => {
+        this.socket.on(`sendMessage.${UserStore.userInfo._id}`, async msg => {
             ChatStore.addChatList({
                 text: msg.content,
                 who: 0
             })
         })
     }
+
+    componentWillMount() {
+        //监听键盘弹出事件
+        this.keyboardDidShowListener = Keyboard.addListener(
+            "keyboardDidShow",
+            this.keyboardDidShowHandler.bind(this)
+        );
+        //监听键盘隐藏事件
+        this.keyboardDidHideListener = Keyboard.addListener(
+            "keyboardDidHide",
+            this.keyboardDidHideHandler.bind(this)
+        );
+    }
+ 
+    componentWillUnmount() {
+        //卸载键盘弹出事件监听
+        if (this.keyboardDidShowListener != null) {
+            this.keyboardDidShowListener.remove();
+        }
+        //卸载键盘隐藏事件监听
+        if (this.keyboardDidHideListener != null) {
+            this.keyboardDidHideListener.remove();
+        }
+    }
+ 
+    //键盘弹出事件响应
+    keyboardDidShowHandler(event) {
+        this.setState({ KeyboardShown: true });
+    }
+ 
+    //键盘隐藏事件响应
+    keyboardDidHideHandler(event) {
+        this.setState({ KeyboardShown: false });
+    }
+ 
+    //强制隐藏键盘
+    dissmissKeyboard() {
+        // Toast.info("点击", 1);
+        Keyboard.dismiss();
+    }
+
     sendMessage() {
         const { ChatStore, UserStore } = this.props.rootStore
         this.socket.emit(`sendMessage.client`, {
@@ -58,12 +104,12 @@ export default class ChatInput extends Component {
             body: JSON.stringify({
                 content: this.state.message,
                 from: {
-                    userId: UserStore.userInfo.userId,
+                    _id: UserStore.userInfo._id,
                     icon: UserStore.userInfo.icon,
                     name: UserStore.userInfo.name
                 },
                 to: {
-                    userId: this.props.chatObj._id,
+                    _id: this.props.chatObj._id,
                     icon: this.props.chatObj.icon,
                     name: this.props.chatObj.name
                 }
@@ -86,11 +132,13 @@ export default class ChatInput extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <TextInput
-                    keyboardType='default'
-                    style={styles.input}
-                    onChangeText={(text) => this.setState({message: text})}
-                />
+                <TouchableOpacity style={styles.input} activeOpacity={1.0} onPress={this.dissmissKeyboard.bind(this)}>
+                    <TextInput
+                        autoCapitalize="none"
+                        keyboardType='default'
+                        onChangeText={(text) => this.setState({message: text})}
+                    />
+                </TouchableOpacity>
                 <View style={styles.sendBtnWrap}>
                     <Button
                         title='发送'

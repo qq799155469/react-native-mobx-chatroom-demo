@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start'
     },
     item: {
-        width: '50%',
+        maxWidth: '74%',
         padding: 8,
         color: '#333',
         borderRadius: 20,

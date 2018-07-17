@@ -33,7 +33,7 @@ ws.on('connection', client => {
     })
     client.on('sendMessage.client', msg => {
         const {content, from, to} = msg
-        client.emit(`sendMessage.${to.userId}`, {
+        client.emit(`sendMessage.${to._id}`, {
             content,
             from,
             to
