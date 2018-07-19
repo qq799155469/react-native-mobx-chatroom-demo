@@ -8,7 +8,7 @@ import {
     SubmitBtn
 } from './components'
 import { apiAddr } from '../../config'
-import { observer, inject } from 'mobx-react'
+import { observer, inject } from 'mobx-react/native'
 
 @inject('rootStore')
 @observer
@@ -39,7 +39,8 @@ export default class Login extends Component {
             if (data.code === 0 && data.flag === 0) {
                 const store = this.props.rootStore.UserStore
                 store.fetchUser(data.data)
-                this.props.goContacts()
+                store.setToken(data.token)
+                this.props.goMessages()
             } else {
                 Alert.alert(data.message)
             }

@@ -15,7 +15,7 @@ import ChatInput from './ChatInput'
 @observer //观察该组件，使该组件能够响应mobx的变化
 export default class ChatRoom extends Component {
     static navigationOptions = ({navigation}) => ({
-        title: navigation.state.params.item.name
+        title: navigation.state.params?navigation.state.params.item.name:null
     })
     constructor(props) {
         super(props)
@@ -33,7 +33,8 @@ export default class ChatRoom extends Component {
             method: 'POST',
             headers:{
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + this.props.rootStore.UserStore.token
             },
             body: JSON.stringify({
                 fromId: this.state.chatObj._id,
@@ -43,13 +44,6 @@ export default class ChatRoom extends Component {
         .then(res => res.json())
         .then(data => {
             if (data.code === 0 && data.flag === 0) {
-                for(let val in data.data) {
-                    if (data.data[val].from._id == this.state.chatObj._id) {
-                        data.data[val].who = 0
-                    } else {
-                        data.data[val].who = 1
-                    }
-                }
                 this.ChatStore.restoreChatList(data.data)
             } else {
                 Alert.alert(data.message)

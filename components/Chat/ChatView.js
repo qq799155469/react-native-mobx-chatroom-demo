@@ -5,7 +5,7 @@ import {
     StyleSheet,
     Text,
     View,
-    ImageBackground
+    Image
 } from 'react-native'
 
 @inject('rootStore')
@@ -15,14 +15,12 @@ export default class ChatView extends Component {
         super(props)
     }
     render() {
-        const store = this.props.rootStore.ChatStore
+        const {ChatStore, UserStore} = this.props.rootStore
         return (
-            store.chatList.map((item, index) => <View 
+            ChatStore.chatList.map((item, index) => <View 
                 key={index} 
-                style={item.who ? styles.itemWrapOwn : styles.itemWrapOther}>
-                    <ImageBackground 
-                    source={{uri: item.icon}} 
-                    style={styles.portrait}></ImageBackground>
+                style={item.from._id === UserStore.userInfo._id ? styles.itemWrapOwn : styles.itemWrapOther}>
+                    <Image source={{uri: item.from.icon}} style={styles.portrait}/>
                     <Text style={styles.item}>{item.content}</Text>
                 </View>)
         )
@@ -64,7 +62,7 @@ const styles = StyleSheet.create({
         height: 30,
         margin: 10,
         marginTop: 0,
-        borderRadius: 30,
+        borderRadius: 15,
         backgroundColor: '#333',
     }
 })

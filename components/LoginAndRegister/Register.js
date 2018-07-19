@@ -8,7 +8,10 @@ import {
     SubmitBtn
 } from './components'
 import { apiAddr } from '../../config'
+import { observer, inject } from 'mobx-react/native'
 
+@inject('rootStore')
+@observer
 export default class Register extends Component {
     constructor(props) {
         super(props)
@@ -38,7 +41,10 @@ export default class Register extends Component {
         .then(res => res.json())
         .then(data => {
             if (data.code === 0 && data.flag === 0) {
-                this.props.goContacts()
+                const store = this.props.rootStore.UserStore
+                store.fetchUser(data.data)
+                store.setToken(data.token)
+                this.props.goMessages()
             } else {
                 Alert.alert(data.message)
             }

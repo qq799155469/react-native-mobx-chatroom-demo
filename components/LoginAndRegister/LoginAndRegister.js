@@ -24,13 +24,16 @@ export default class LoginAndRegisterView extends Component {
     goContacts() {
         this.props.navigation.navigate('Contacts')
     }
+    goMessages() {
+        this.props.navigation.navigate('Messages')
+    }
     render() {
         const store = this.props.rootStore.LoginAndRegisterStore
         return (
             <View style={styles.container}>
                 <ImageBackground style={styles.bgImage}/>
                 <SwitchBar/>
-                {store.switchToRegister ? <Register goContacts={this.goContacts.bind(this)}/> : <Login goContacts={this.goContacts.bind(this)}/>}
+                {store.switchToRegister ? <Register goMessages={this.goMessages.bind(this)}/> : <Login goMessages={this.goMessages.bind(this)}/>}
             </View>
         )
     }

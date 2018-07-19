@@ -1,12 +1,12 @@
 const mongoose = require('mongoose')
 const io = require('socket.io')()
+const jwtKoa = require('koa-jwt')
+
 const configs = require('./configs')
-const request = require('request')
 // connect to mongodb
-const db = 'mongodb://localhost:27017/chat'
 
 mongoose.Promise = global.Promise
-mongoose.connect(db)
+mongoose.connect(configs.mongodbAddr)
 
 // server
 const Koa = require('koa')
@@ -18,7 +18,11 @@ app.use(bodyParser())
 
 const router = require('./apis/routers')()
 
-app.use(router.routes())
+app.use(jwtKoa({secret: configs.secret})
+        .unless({
+            path: ['/api/login', '/api/register', '/api/contacts/search'] //数组中的路径不需要通过jwt验证
+        }))
+    .use(router.routes())
     .use(router.allowedMethods())
 
 const server = app.listen(configs.port, () => {

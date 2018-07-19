@@ -22,12 +22,7 @@ export default class ChatStore {
     // ** who: 1表示自己，0表示对方
     @action 
     addChatList = data => {
-        this.chatList.push({
-            key: '0',
-            who: data.who,
-            content: data.text,
-            icon: data.who ? this.userInfo.icon : this.toUserInfo.icon
-        })
+        this.chatList.push(data)
         setTimeout(() => this.listDom.scrollToEnd({animated: true}),0)
     }
     // restore chat history

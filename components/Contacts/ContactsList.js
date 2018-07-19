@@ -4,15 +4,42 @@ import {
     Image,
     View,
     TouchableOpacity,
-    Text
+    Text,
+    Alert
 } from 'react-native'
 import { observer, inject } from 'mobx-react/native'
+import { apiAddr } from '../../config'
 
 @inject('rootStore')
 @observer
 export default class ContactsList extends Component {
     constructor(props) {
         super(props)
+    }
+    addContact(_id) {
+        const {UserStore, ContactsStore} = this.props.rootStore
+        fetch(`${apiAddr}/contacts/add`,{
+            method: 'POST',
+            headers:{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${UserStore.token}` 
+            },
+            body: JSON.stringify({
+                _id
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.code === 0 && data.flag === 0) {
+                UserStore.updateContacts(data.data)
+                ContactsStore.setContactsList(data.data)
+            } else {
+                Alert.alert(data.message)
+            }
+        }).catch(err => {
+            alert(err)
+        })
     }
     render() {
         const { ContactsStore } = this.props.rootStore
@@ -24,7 +51,10 @@ export default class ContactsList extends Component {
             >
                 <View style={styles.item}>
                     <Image source={{uri: item.icon}} style={styles.icon}/>
-                    <Text>{item.name}</Text>
+                    <Text style={styles.name}>{item.name}</Text>
+                    {item.search && <TouchableOpacity onPress={() => this.addContact(item._id)} style={styles.addBtn}>
+                        <Text>添加</Text>
+                    </TouchableOpacity>}
                 </View>
             </TouchableOpacity>
             )
@@ -35,8 +65,7 @@ export default class ContactsList extends Component {
 const styles = StyleSheet.create({
     item: {
         width: '100%',
-        paddingTop: 10,
-        paddingBottom: 10,
+        padding: 10,
         borderBottomWidth: 0.5,
         borderColor: '#ccc',
         alignItems: 'center',
@@ -45,6 +74,13 @@ const styles = StyleSheet.create({
     },
     icon: {
         width: 30,
-        height: 30
+        height: 30,
+    },
+    name: {
+        flex: 5,
+        paddingLeft: 10
+    },
+    addBtn: {
+        flex: 0.5
     }
 })

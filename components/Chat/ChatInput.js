@@ -99,7 +99,8 @@ export default class ChatInput extends Component {
             method: 'POST',
             headers:{
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + this.props.rootStore.UserStore.token
             },
             body: JSON.stringify({
                 content: this.state.message,
@@ -118,10 +119,7 @@ export default class ChatInput extends Component {
         .then(res => res.json())
         .then(data => {
             if (data.code === 0 && data.flag === 0) {
-                ChatStore.addChatList({
-                    text: this.state.message,
-                    who: 1
-                })
+                ChatStore.addChatList(data.data)
             } else {
                 Alert.alert(data.message)
             }

@@ -1,20 +1,21 @@
 import React, {Component} from 'react'
 import {
     View,
-    ScrollView,
     Text,
+    ScrollView,
     StyleSheet
 } from 'react-native'
 import { observer, inject } from 'mobx-react/native'
 
 import ContactsList from './ContactsList'
+import ContactsSearch from './ContactsSearch'
 
 @inject('rootStore')
 @observer
 export default class ContactsBox extends Component {
     // 配置页面导航选项
     static navigationOptions = ({navigation}) => ({
-        title: '联系人列表'
+        title: '联系人'
     })
     constructor(props) {
         super(props)
@@ -34,6 +35,7 @@ export default class ContactsBox extends Component {
     render() {
         return (
             <View style={styles.container}>
+                <ContactsSearch/>
                 <ScrollView style={styles.container}>
                     <ContactsList goChat={this.goChat.bind(this)}/>
                 </ScrollView>
@@ -46,5 +48,9 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
         flex: 1
+    },
+    addContact: {
+        color: '#333',
+        paddingRight: 10
     }
 })
