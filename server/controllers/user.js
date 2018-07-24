@@ -1,5 +1,6 @@
 const md5 = require('blueimp-md5')
 const jwt = require('jsonwebtoken')
+const _ = require('lodash/object')
 const configs = require('../configs')
 
 const User = require('../models/User')
@@ -15,8 +16,9 @@ class UserController {
                 _id: res._id
             }
             const token = jwt.sign(userToken, configs.secret, {expiresIn: '1h'})
+            const data = _.pick(res, 'username', '_id', 'contacts', 'name', 'online', 'icon')
             ctx.body = {
-                data: res,
+                data,
                 code: 0,
                 flag: 0,
                 token,
@@ -54,15 +56,36 @@ class UserController {
                 username: res.username,
                 _id: res._id
             }
+            const data = _.pick(res, 'username', '_id', 'contacts', 'name', 'online', 'icon')
             const token = jwt.sign(userToken, configs.secret, {expiresIn: '1h'}) 
             ctx.body = {
                 code: 0,
                 flag: 0,
-                data: res,
+                data,
                 token,
                 message: '恭喜你，注册成功'
             }
             ctx.status = 200
+        }
+    }
+    async getOtherInfo (ctx) {
+        const { body } = ctx.request
+        const res = await User.findOne({_id: body._id})
+        if (res) {
+            let data = _.pick(res, '_id', 'icon', 'name', 'online')
+            ctx.body = {
+                code: 0,
+                flag: 0,
+                data,
+                message: 'success'
+            }
+            ctx.status = 200
+        } else {
+            ctx.body = {
+                code: 0,
+                flag: 1,
+                message: '该用户不存在'
+            }
         }
     }
 }

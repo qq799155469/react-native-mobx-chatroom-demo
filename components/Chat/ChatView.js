@@ -5,8 +5,10 @@ import {
     StyleSheet,
     Text,
     View,
+    TouchableOpacity,
     Image
 } from 'react-native'
+import { apiAddr } from '../../config'
 
 @inject('rootStore')
 @observer
@@ -14,13 +16,42 @@ export default class ChatView extends Component {
     constructor(props) {
         super(props)
     }
+    goOther(_id) {
+        fetch(`${apiAddr}/getotherinfo`,{
+            method: 'POST',
+            headers:{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + this.props.rootStore.UserStore.token
+            },
+            body: JSON.stringify({
+                _id
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.code === 0 && data.flag === 0) {
+                const store = this.props.rootStore.OtherStore
+                store.fetchUser(data.data)
+                this.props.goOtherStack()
+            } else {
+                Alert.alert(data.message)
+            }
+        }).catch(err => {
+            alert(err)
+        })
+    }
     render() {
         const {ChatStore, UserStore} = this.props.rootStore
         return (
             ChatStore.chatList.map((item, index) => <View 
                 key={index} 
                 style={item.from._id === UserStore.userInfo._id ? styles.itemWrapOwn : styles.itemWrapOther}>
-                    <Image source={{uri: item.from.icon}} style={styles.portrait}/>
+                    <TouchableOpacity
+                    onPress={() => this.goOther(item.from._id)}
+                    >
+                        <Image source={{uri: item.from.icon}} style={styles.portrait}/>
+                    </TouchableOpacity>
                     <Text style={styles.item}>{item.content}</Text>
                 </View>)
         )

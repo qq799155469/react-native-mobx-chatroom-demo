@@ -12,6 +12,7 @@ import Chat from './components/Chat/ChatRoom'
 import Contacts from './components/Contacts/ContactsBox'
 import Messages from './components/Messages'
 import User from './components/User'
+import Other from './components/Other'
 
 import store from './store'
 
@@ -48,6 +49,9 @@ const App = createStackNavigator({
   },
   Chat: {
     screen: Chat
+  },
+  Other: {
+    screen: Other
   },
   Tab: {
     screen: TabStack

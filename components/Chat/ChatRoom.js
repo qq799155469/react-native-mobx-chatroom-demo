@@ -28,6 +28,9 @@ export default class ChatRoom extends Component {
     componentWillMount() {
         this.initChat()
     }
+    goOtherStack() {
+        this.props.navigation.navigate('Other')
+    }
     initChat() {
         fetch(`${apiAddr}/message/history`,{
             method: 'POST',
@@ -64,7 +67,7 @@ export default class ChatRoom extends Component {
                 <ScrollView 
                     style={styles.listView}
                     ref={scrollView => this.initScrollView(scrollView)}>
-                    <ChatView/>
+                    <ChatView goOtherStack={this.goOtherStack.bind(this)}/>
                 </ScrollView>
                 <ChatInput chatObj={this.state.chatObj}/>
             </View>
