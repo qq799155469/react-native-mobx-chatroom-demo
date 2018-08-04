@@ -29,7 +29,7 @@ export default class UserSetting extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 2,
+        flex: 1.5,
         paddingTop: 10
     },
     item: {

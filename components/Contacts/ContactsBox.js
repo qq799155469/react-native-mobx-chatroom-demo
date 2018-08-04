@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {
     View,
-    Text,
+    Image,
     ScrollView,
     StyleSheet
 } from 'react-native'
@@ -12,10 +12,20 @@ import ContactsSearch from './ContactsSearch'
 
 @inject('rootStore')
 @observer
-export default class ContactsBox extends Component {
+class ContactsBox extends Component {
     // 配置页面导航选项
     static navigationOptions = ({navigation}) => ({
-        title: '联系人'
+        title: '联系人',
+        tabBarIcon: ({focused}) => {
+            if (focused) {
+                return (
+                    <Image style={styles.tabBarIcon} source={require('../../static/imgs/contact.png')}/>
+                );
+            }
+            return (
+                <Image style={styles.tabBarIcon} source={require('../../static/imgs/contact.png')}/>
+            );
+        }
     })
     constructor(props) {
         super(props)
@@ -36,7 +46,8 @@ export default class ContactsBox extends Component {
         return (
             <View style={styles.container}>
                 <ContactsSearch/>
-                <ScrollView style={styles.container}>
+                {/* keyboardShouldPersistTaps属性用于解决scrollview下touch事件要点击两次才能生效的问题 */}
+                <ScrollView keyboardShouldPersistTaps="always" style={styles.container}>
                     <ContactsList goChat={this.goChat.bind(this)}/>
                 </ScrollView>
             </View>
@@ -52,5 +63,11 @@ const styles = StyleSheet.create({
     addContact: {
         color: '#333',
         paddingRight: 10
+    },
+    tabBarIcon: {
+        width: 21,
+        height: 21,
     }
 })
+
+export default ContactsBox

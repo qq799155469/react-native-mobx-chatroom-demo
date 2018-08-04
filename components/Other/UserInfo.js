@@ -6,6 +6,7 @@ import {
     StyleSheet
 } from 'react-native'
 import { observer, inject } from 'mobx-react/native'
+import { theme } from '../../config'
 
 @inject('rootStore')
 @observer
@@ -26,7 +27,10 @@ export default class UserInfo extends Component {
                 style={styles.icon}
                 />
                 <Text style={styles.name}>{OtherStore.otherInfo.name}</Text>
-                <Text style={styles.info}>信息：{OtherStore.otherInfo.age || '神秘'}</Text>
+                <View style={styles.info}>
+                    <Text style={styles.age}>{OtherStore.otherInfo.age || '神秘'}</Text>
+                    <Image style={styles.sex} source={OtherStore.otherInfo.sex ? require('../../static/imgs/sex-man.png') : require('../../static/imgs/sex-woman.png')}/>
+                </View>
                 <Text style={styles.intro}>简介：{OtherStore.otherInfo.intro || '空空如也~'}</Text>
             </View>
         )
@@ -39,7 +43,7 @@ const styles = StyleSheet.create({
         height: 80
     },
     container: {
-        backgroundColor: '#dd9590',
+        backgroundColor: theme.color.dark,
         width: '100%',
         flex: 1,
         alignItems: 'center',
@@ -59,9 +63,19 @@ const styles = StyleSheet.create({
         lineHeight: 20
     },
     info: {
+        height: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row'
+    },
+    age: {
         fontSize: 10,
         color: '#fff',
-        lineHeight: 20
+    },
+    sex: {
+        marginLeft: 2,
+        width: 10,
+        height: 8
     },
     intro: {
         fontSize: 10,

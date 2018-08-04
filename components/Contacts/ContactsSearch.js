@@ -4,11 +4,12 @@ import {
     TextInput,
     TouchableOpacity,
     Text,
+    Image,
     View
 } from 'react-native'
 import { observer, inject } from 'mobx-react/native'
 
-import { apiAddr } from '../../config'
+import { apiAddr, theme } from '../../config'
 
 @inject('rootStore')
 @observer
@@ -63,7 +64,7 @@ export default class ContactsSearch extends Component {
                 style={styles.add} 
                 onPress={() => this.fetchContact()}
                 >
-                    <Text style={styles.addText}>搜索</Text>
+                    <Text style={styles.addText}><Image style={styles.searchIcon} source={require('../../static/imgs/search.png')}/></Text>
                 </TouchableOpacity>
             </View>
         )
@@ -74,18 +75,26 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         height: 50,
-        backgroundColor: '#efefef',
-        padding: 5,
+        backgroundColor: theme.color.bg,
+        padding: 10,
+        paddingTop: 0,
+        paddingRight: 0,
         justifyContent: 'center',
         flexDirection: 'row'
     },
     search: {
         height: '100%',
-        flex: 4,
+        flex: 5,
         backgroundColor: '#fff',
         padding: 10,
         borderRightWidth: 0.5,
-        borderColor: '#eee'
+        borderColor: '#eee',
+        borderRadius: 2
+    },
+    searchIcon: {
+        width: 26,
+        height: 26,
+        paddingTop: 2
     },
     add: {
         flex: 1,

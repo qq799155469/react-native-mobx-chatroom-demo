@@ -5,6 +5,7 @@ import {
     Text,
     StyleSheet
 } from 'react-native'
+import { theme } from '../../config'
 
 export default class OtherOperate extends Component {
     constructor(props) {
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
     send: {
         width: 200,
         height: 50,
-        backgroundColor: '#dd9590',
+        backgroundColor: theme.color.green,
         justifyContent: 'center',
         borderRadius: 25,
         alignItems: 'center'

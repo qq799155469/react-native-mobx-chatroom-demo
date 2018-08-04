@@ -4,6 +4,7 @@ import {
     StyleSheet,
     TouchableOpacity
 } from 'react-native'
+import { theme } from '../../../config'
 
 export default class SubmitBtn extends Component {
     constructor(props) {
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
         marginLeft: '2.5%',
         marginRight: '2.5%',
         height:48,
-        backgroundColor: '#3281DD',
+        backgroundColor: theme.color.blue,
         borderRadius:5,
         flexDirection: 'row',
         justifyContent: 'center',

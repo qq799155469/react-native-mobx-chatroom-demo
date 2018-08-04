@@ -10,7 +10,7 @@ import {
     Keyboard,
     TouchableOpacity
 } from 'react-native'
-import { wsAddr, apiAddr } from '../../config'
+import { wsAddr, apiAddr, theme } from '../../config'
 
 if (!window.location) {
     // App is running in simulator
@@ -152,9 +152,19 @@ export default class ChatInput extends Component {
 const styles = StyleSheet.create({
     container: {
         width: '100%',
-        flex: 0.1,
-        backgroundColor: '#333',
+        height: 50,
+        padding: 5,
+        paddingRight: 0,
+        backgroundColor: theme.color.dark,
         display: 'flex',
+        borderTopWidth: 0.5,
+        borderColor: '#666',
+        shadowColor: '#666',
+        shadowOpacity: 0.6,
+        shadowOffset: {
+            width: 1,
+            height: 1
+        },
         justifyContent: 'flex-start',
         flexDirection: 'row'
     },
@@ -162,7 +172,8 @@ const styles = StyleSheet.create({
         width: '80%',
         height: 40,
         backgroundColor: '#fff',
-        padding: 10
+        padding: 10,
+        borderRadius: 5
     },
     sendBtnWrap: {
         width: '20%',

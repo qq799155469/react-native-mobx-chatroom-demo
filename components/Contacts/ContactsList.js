@@ -2,13 +2,13 @@ import React, {Component} from 'react'
 import {
     StyleSheet,
     Image,
-    View,
     TouchableOpacity,
     Text,
     Alert
 } from 'react-native'
 import { observer, inject } from 'mobx-react/native'
 import { apiAddr } from '../../config'
+import User from '../Other';
 
 @inject('rootStore')
 @observer
@@ -42,20 +42,21 @@ export default class ContactsList extends Component {
         })
     }
     render() {
-        const { ContactsStore } = this.props.rootStore
+        const { ContactsStore, UserStore } = this.props.rootStore
         return (
-            ContactsStore.contactsList.map((item, index) => 
+            ContactsStore.contactsList.map((item, index) =>   
             <TouchableOpacity
                 onPress={() => this.props.goChat(item)}
                 key={index} 
+                style={styles.item}
             >
-                <View style={styles.item}>
-                    <Image source={{uri: item.icon}} style={styles.icon}/>
-                    <Text style={styles.name}>{item.name}</Text>
-                    {item.search && <TouchableOpacity onPress={() => this.addContact(item._id)} style={styles.addBtn}>
-                        <Text>添加</Text>
-                    </TouchableOpacity>}
-                </View>
+                <Image source={{uri: item.icon}} style={styles.icon}/>
+                <Text style={styles.name}>{item.name}</Text>
+                {item.search && (UserStore.userInfo.contacts.some(_ => _._id === item._id) ? 
+                <Text style={styles.hadContact}>已存在</Text> : 
+                <TouchableOpacity onPress={() => this.addContact(item._id)} style={styles.addBtn}>
+                    <Image source={require('../../static/imgs/add-contact.png')} style={styles.addIcon}/>
+                </TouchableOpacity>)}
             </TouchableOpacity>
             )
         )
@@ -66,6 +67,7 @@ const styles = StyleSheet.create({
     item: {
         width: '100%',
         padding: 10,
+        paddingRight: 0,
         borderBottomWidth: 0.5,
         borderColor: '#ccc',
         alignItems: 'center',
@@ -81,6 +83,25 @@ const styles = StyleSheet.create({
         paddingLeft: 10
     },
     addBtn: {
-        flex: 0.5
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 15,
+        minWidth: 30,
+        height: 30,
+        marginRight: 10,
+        shadowColor: '#ccc',
+        shadowOffset: {
+            width: 1,
+            height: 1
+        },
+        shadowOpacity: .5
+    },
+    addIcon: {
+        width: 26,
+        height: 26,
+    },
+    hadContact: {
+        color: '#666',
+        marginRight: 10
     }
 })

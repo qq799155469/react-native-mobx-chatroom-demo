@@ -14,6 +14,9 @@ const UserSchema = new Schema({
         required: true,
         type: String
     },
+    sex: {
+        type: Number
+    },
     online: {
         type: Boolean
     },

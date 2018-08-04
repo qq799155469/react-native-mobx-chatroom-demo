@@ -14,7 +14,7 @@ import { observer, inject } from 'mobx-react/native'
 //视图组件
 @inject('rootStore')
 @observer
-export default class LoginAndRegisterView extends Component {
+class LoginAndRegisterView extends Component {
     constructor(props) {
         super(props)
     }
@@ -52,3 +52,5 @@ const styles = StyleSheet.create({
         height: 100
     }
 })
+
+export default LoginAndRegisterView

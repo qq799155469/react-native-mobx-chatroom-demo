@@ -16,7 +16,7 @@ class UserController {
                 _id: res._id
             }
             const token = jwt.sign(userToken, configs.secret, {expiresIn: '1h'})
-            const data = _.pick(res, 'username', '_id', 'contacts', 'name', 'online', 'icon')
+            const data = _.pick(res, 'username', '_id', 'contacts', 'name', 'online', 'icon', 'sex')
             ctx.body = {
                 data,
                 code: 0,
@@ -38,6 +38,7 @@ class UserController {
         const { body } = ctx.request
         const params = Object.assign({
             online: true,
+            sex: 1,
             icon: `${configs.serverAddr}/assets/imgs/defaut-protrait.png`
         }, body, {
             password: md5(body.password, configs.md5Key)
@@ -56,7 +57,7 @@ class UserController {
                 username: res.username,
                 _id: res._id
             }
-            const data = _.pick(res, 'username', '_id', 'contacts', 'name', 'online', 'icon')
+            const data = _.pick(res, 'username', '_id', 'contacts', 'name', 'online', 'icon', 'sex')
             const token = jwt.sign(userToken, configs.secret, {expiresIn: '1h'}) 
             ctx.body = {
                 code: 0,

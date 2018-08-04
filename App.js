@@ -1,11 +1,12 @@
 import React from 'react'
 import {
-  createStackNavigator,
-  createBottomTabNavigator
+  StackNavigator,
+  TabNavigator
 } from 'react-navigation'
 import {
   Provider
 } from 'mobx-react'
+import {theme} from './config'
 
 import LoginAndRegister from './components/LoginAndRegister/LoginAndRegister'
 import Chat from './components/Chat/ChatRoom'
@@ -24,7 +25,7 @@ const Navigation = () => {
   )
 }
 
-const TabStack = createBottomTabNavigator({
+const TabStack = TabNavigator({
   Messages: {
     screen: Messages
   },
@@ -37,13 +38,19 @@ const TabStack = createBottomTabNavigator({
 }, {
   initialRouteName: 'Messages',
   tabBarOptions: {
+    activeTintColor: theme.color.blue,
+    showIcon: true,
     style: {
-
+      backgroundColor: '#fff',
+      paddingBottom: 1,
+      borderTopWidth: 0.2,
+      paddingTop: 1,
+      borderTopColor: '#666'
     }
   }
 })
 
-const App = createStackNavigator({
+const App = StackNavigator({
   LoginAndRegister: {
     screen: LoginAndRegister
   },

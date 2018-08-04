@@ -6,16 +6,7 @@ export default class UserStore {
     @observable
     token = ''
     @action
-    fetchUser = user => {
-        const { name, icon, online, _id, contacts } = user
-        this.userInfo = {
-            name,
-            icon,
-            online,
-            _id,
-            contacts
-        }
-    }
+    fetchUser = user => this.userInfo = user
     @action
     setToken = token => this.token = token
     @action

@@ -13,7 +13,7 @@ import ChatInput from './ChatInput'
 
 @inject('rootStore')
 @observer //观察该组件，使该组件能够响应mobx的变化
-export default class ChatRoom extends Component {
+class ChatRoom extends Component {
     static navigationOptions = ({navigation}) => ({
         title: navigation.state.params?navigation.state.params.item.name:null
     })
@@ -69,7 +69,7 @@ export default class ChatRoom extends Component {
                     ref={scrollView => this.initScrollView(scrollView)}>
                     <ChatView goOtherStack={this.goOtherStack.bind(this)}/>
                 </ScrollView>
-                <ChatInput chatObj={this.state.chatObj}/>
+                <ChatInput style={styles.input} chatObj={this.state.chatObj}/>
             </View>
         )
     }
@@ -85,8 +85,13 @@ const styles = StyleSheet.create({
     },
     listView: {
         width: '100%',
-        flex: 1,
+        flex: 6,
         paddingTop: 15,
         paddingBottom: 45
+    },
+    input: {
+        flex: 1
     }
 })
+
+export default ChatRoom

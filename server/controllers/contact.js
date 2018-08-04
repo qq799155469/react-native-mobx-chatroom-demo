@@ -30,13 +30,22 @@ class ContactController {
             const token = ctx.header.authorization
             const payload = await verify(token.split(' ')[1], configs.secret)  // // 解密，获取payload
             const {username} = payload
+            const myId = payload._id
             const me = await User.findOne({username})
             const isExist = await me.contacts.some(item => item._id == _id)
+            const isMe = _id === myId
             if (isExist) {
                 ctx.body = {
                     code: 0,
                     flag: 1,
                     message: '该好友已存在'
+                }
+                ctx.status = 200
+            } else if (isMe) {
+                ctx.body = {
+                    code: 0,
+                    flag: 1,
+                    message: '不可以添加自己'
                 }
                 ctx.status = 200
             } else {

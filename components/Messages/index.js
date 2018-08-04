@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {
     View,
+    Image,
     StyleSheet
 } from 'react-native'
 
@@ -13,7 +14,17 @@ import { apiAddr } from '../../config'
 @observer
 export default class Messages extends Component {
     static navigationOptions = ({navigation}) => ({
-        title: '消息'
+        title: '消息',
+        tabBarIcon: ({focused}) => {
+            if (focused) {
+                return (
+                    <Image style={styles.tabBarIcon} source={require('../../static/imgs/message.png')}/>
+                );
+            }
+            return (
+                <Image style={styles.tabBarIcon} source={require('../../static/imgs/message.png')}/>
+            );
+        }
     })
     constructor(props) {
         super(props)
@@ -55,7 +66,7 @@ export default class Messages extends Component {
     }
     render() {
         return (
-            <View style={styles.container}>
+            <View>
                 <MessageList goChat={this.goChat.bind(this)}/>
             </View>
         )
@@ -63,7 +74,8 @@ export default class Messages extends Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        
+    tabBarIcon: {
+        width: 21,
+        height: 21,
     }
 })
