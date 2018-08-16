@@ -5,6 +5,7 @@ import {
     Button
 } from 'react-native'
 import { observer, inject } from 'mobx-react/native'
+import { theme } from '../../../config'
 
 @inject('rootStore')
 @observer
@@ -29,14 +30,16 @@ export default class SwitchBar extends Component {
         }
     }
     render() {
+        const store = this.props.rootStore.LoginAndRegisterStore
         return (
             <View style={styles.switchBarContainer}>
                 {this.state.operates.map((item, index) => (
                 <Button 
                     title={item.name}
                     key={index}
+                    color={store.switchToRegister && item.key || !store.switchToRegister && !item.key ? theme.color.lightdark : theme.color.white}
                     onPress={() => this.state.operates[index].todo()}
-                    style={styles.switchBarBtn}/>))}
+                    />))}
             </View>
         )
     }
@@ -47,9 +50,9 @@ const styles = StyleSheet.create({
         width: '100%',
         flex: .2,
         display: 'flex',
-        justifyContent: 'flex-start',
+        justifyContent: 'space-between',
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     switchBarBtn: {
         flex: 1

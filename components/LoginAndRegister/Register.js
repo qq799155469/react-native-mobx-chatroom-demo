@@ -16,9 +16,9 @@ export default class Register extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            usernamePlace: '请输入账号',
-            pwdPlace: '请输入密码',
-            nicknamePlace: '请输入昵称',
+            usernamePlace: '点击输入账号',
+            pwdPlace: '点击输入密码',
+            nicknamePlace: '点击输入昵称',
             username: '',
             pwd: '',
             nickname: '',
@@ -57,12 +57,15 @@ export default class Register extends Component {
             <View>
                 <View>
                     <EditView 
+                        type='username'
                         tip={this.state.usernamePlace}
                         changeText={text => this.setState({username: text})}/>
                     <EditView 
+                        type='password'
                         tip={this.state.pwdPlace}
                         changeText={text => this.setState({pwd: text})}/>
                     <EditView 
+                        type='nickname'
                         tip={this.state.nicknamePlace}
                         changeText={text => this.setState({nickname: text})}/>
                 </View>

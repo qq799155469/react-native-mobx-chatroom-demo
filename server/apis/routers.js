@@ -12,6 +12,7 @@ module.exports = () => {
     router.post('/register', UserController.Register)
     router.post('/login', UserController.Login)
     router.post('/getotherinfo', UserController.getOtherInfo)
+    router.post('/checkLogin', UserController.checkLogin)
     router.post('/contacts/list', ContactController.getList)
     router.post('/contacts/search', ContactController.search)
     router.post('/contacts/add', ContactController.add)

@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 import {
     View,
-    Alert
+    Alert,
+    AsyncStorage
 } from 'react-native'
 import {
     EditView,
@@ -16,8 +17,8 @@ export default class Login extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            usernamePlace: '请输入账号',
-            pwdPlace: '请输入密码',
+            usernamePlace: '点击输入账号',
+            pwdPlace: '点击输入密码',
             username: '',
             pwd: ''
         }
@@ -40,6 +41,14 @@ export default class Login extends Component {
                 const store = this.props.rootStore.UserStore
                 store.fetchUser(data.data)
                 store.setToken(data.token)
+                _storeData = async () => {
+                    try {
+                        await AsyncStorage.setItem('token', data.token)
+                    } catch (error) {
+                        console.log('set token error')
+                    }
+                }
+                _storeData()
                 this.props.goMessages()
             } else {
                 Alert.alert(data.message)
@@ -53,9 +62,11 @@ export default class Login extends Component {
             <View>
                 <View>
                     <EditView 
+                    type='username'
                     tip={this.state.usernamePlace}
                     changeText={text => this.setState({username: text})}/>
                     <EditView 
+                    type='password'
                     tip={this.state.pwdPlace}
                     changeText={text => this.setState({pwd: text})}/>
                 </View>

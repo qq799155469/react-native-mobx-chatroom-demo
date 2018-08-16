@@ -1,6 +1,8 @@
 const md5 = require('blueimp-md5')
 const jwt = require('jsonwebtoken')
 const _ = require('lodash/object')
+const util = require('util')
+const verify = util.promisify(jwt.verify)
 const configs = require('../configs')
 
 const User = require('../models/User')
@@ -87,6 +89,35 @@ class UserController {
                 flag: 1,
                 message: '该用户不存在'
             }
+        }
+    }
+    async checkLogin (ctx) {
+        const token = ctx.header.authorization
+        const payload = await verify(token.split(' ')[1], configs.secret) 
+        const {_id} = payload 
+        const res = await User.findOne({_id})
+        if (res) {
+            let userToken = {
+                username: res.username,
+                _id: res._id
+            }
+            const token = jwt.sign(userToken, configs.secret, {expiresIn: '1h'})
+            const data = _.pick(res, 'username', '_id', 'contacts', 'name', 'online', 'icon', 'sex')
+            ctx.body = {
+                data,
+                code: 0,
+                flag: 0,
+                token,
+                message: '您当前为在线状态'
+            }
+            ctx.status = 200
+        } else {
+            ctx.body = {
+                code: 0,
+                flag: -1,
+                message: '位置错误'
+            }
+            ctx.status = 200
         }
     }
 }

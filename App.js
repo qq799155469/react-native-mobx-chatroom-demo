@@ -4,6 +4,9 @@ import {
   TabNavigator
 } from 'react-navigation'
 import {
+  AsyncStorage
+} from 'react-native'
+import {
   Provider
 } from 'mobx-react'
 import {theme} from './config'
@@ -50,6 +53,30 @@ const TabStack = TabNavigator({
   }
 })
 
+// const App = StackNavigator({
+//   LoginAndRegister: {
+//     screen: LoginAndRegister
+//   },
+//   Chat: {
+//     screen: Chat
+//   },
+//   Other: {
+//     screen: Other
+//   },
+//   Tab: {
+//     screen: TabStack
+//   }
+// }, {
+//   navigationOptions: {
+//     title: 'Chat',
+//     headerStyle: {
+//       backgroundColor: '#eee'
+//     }
+//   },
+//   headerMode: 'float'
+// })
+
+
 const App = StackNavigator({
   LoginAndRegister: {
     screen: LoginAndRegister
@@ -64,6 +91,7 @@ const App = StackNavigator({
     screen: TabStack
   }
 }, {
+  initialRouteName: 'Tab',
   navigationOptions: {
     title: 'Chat',
     headerStyle: {
@@ -72,5 +100,25 @@ const App = StackNavigator({
   },
   headerMode: 'float'
 })
+
+const defaultGetStateForAction = App.router.getStateForAction
+
+
+App.router.getStateForAction = (action, state) => {
+  // if (!global.user.loginState) {
+    // const token = AsyncStorage.getItem('token')
+    // alert(JSON.stringify(token))
+    //   this.routes = [
+    //       // ...state.routes,
+    //       {key: 'id-'+Date.now(), routeName: 'LoginAndRegister'},
+    //   ]
+    //   return {
+    //       ...state,
+    //       routes,
+    //       index: 0,
+    //   }
+  // }
+  return defaultGetStateForAction(action, state);
+}
 
 export default Navigation

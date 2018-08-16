@@ -104,7 +104,8 @@ const styles = StyleSheet.create({
     name: {
         fontSize: 16,
         color: '#fff',
-        lineHeight: 20
+        lineHeight: 20,
+        marginBottom: 3
     },
     info: {
         height: 20,

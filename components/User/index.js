@@ -25,11 +25,14 @@ export default class User extends Component {
     constructor(props) {
         super(props)
     }
+    handleToLogin() {
+        this.props.navigation.navigate('LoginAndRegister')
+    }
     render() {
         return (
             <View style={styles.container}>
                 <UserInfo/>
-                <UserSetting/>
+                <UserSetting toLogin={this.handleToLogin.bind(this)}/>
             </View>
         )
     }
