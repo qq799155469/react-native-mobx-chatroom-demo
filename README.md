@@ -31,5 +31,22 @@ $ yarn server
 
 此处贴一部分该项目的相关页面，UI设计的比较简陋，望大家见谅，欢迎大家在issues提出建议
 
+登录注册页面
 ![登录界面](./static/imgs/demo/image.png '登录界面')
+
+消息页面
+![消息页面](./static/imgs/demo/image1.png '消息页面')
+
+聊天页面
+![聊天页面](./static/imgs/demo/image2.png '聊天页面')
+
+联系人列表
+![联系人列表](./static/imgs/demo/image3.png '联系人列表')
+
+个人中心
+![个人中心](./static/imgs/demo/image4.png '个人中心')
+
+他人中心
+![他人中心](./static/imgs/demo/image5.png '他人中心')
+
 
