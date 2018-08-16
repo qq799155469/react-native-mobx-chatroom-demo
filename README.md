@@ -1,5 +1,5 @@
 # react-native-mobx-chatroom-demo
-基于react-native和mobx开发的聊天室应用
+>基于react-native和mobx开发的聊天室应用
 
 ### 该项目可用于学习react-native, mobx, react-navigation(1.X), koa2, mongodb, 也可以当作一个聊天应用的脚手架进行二次开发
 
