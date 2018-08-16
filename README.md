@@ -31,5 +31,5 @@ $ yarn server
 
 此处贴一部分该项目的相关页面，UI设计的比较简陋，望大家见谅，欢迎大家在issues提出建议
 
-![](./static/demo/image.png '登录界面')
+![avator](./static/demo/image.png '登录界面')
 
